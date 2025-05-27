@@ -3,7 +3,7 @@ import glob
 import torch
 
 cfg = SimpleNamespace(**{})
-cfg.WANDB_API_KEY = 'your key'
+cfg.WANDB_API_KEY = '406738370067c363f8ab2c926027b5f7a4309a3d'
 cfg.infer_duration = 5
 cfg.valid_duration = 60
 cfg.label_smoothing = 0.1
