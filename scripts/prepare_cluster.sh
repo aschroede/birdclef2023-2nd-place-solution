@@ -27,9 +27,11 @@ chmod 700 "$NFS_USER_DIR" # only you can access
 
 echo creating directory "$NFS_USER_DIR"/"$PROJECT_NAME"/data
 mkdir -p "$NFS_USER_DIR"/"$PROJECT_NAME"/data
+touch "$NFS_USER_DIR"/"$PROJECT_NAME"/data/.gitignore  # add .gitignore file so data is not added to github
 
 echo creating directory "$NFS_USER_DIR"/"$PROJECT_NAME"/logs
 mkdir -p "$NFS_USER_DIR"/"$PROJECT_NAME"/logs
+touch "$NFS_USER_DIR"/"$PROJECT_NAME"/logs/.gitignore   #  add .gitignore file so data is not added to github
 
 # and make a symlink to access it directly from the root of the project
 echo "creating symlink $PWD/data pointing to $NFS_USER_DIR/$PROJECT_NAME/data"

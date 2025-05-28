@@ -3,3 +3,6 @@ configs/__pycache__/
 modules/__pycache__/
 .venv_38/
 birdclef-image.tar
+venv
+data
+logs
