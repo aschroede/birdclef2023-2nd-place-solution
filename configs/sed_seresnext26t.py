@@ -25,9 +25,10 @@ cfg.model_name = "seresnext26t_32x4d"
 cfg.secondary_label = 0.9
 cfg.secondary_label_weight = 0.5
 
-
-cfg.batch_size = 128
-cfg.PRECISION = 32
+# Make batch size smaller as it probably won't fit in the 11 GB memory of the 2080 TI
+cfg.batch_size = 32
+# Make precision smaller as well
+cfg.PRECISION = 16
 cfg.seed = {
     "pretrain_ce": 19940215,
     "pretrain_bce": 19000215,
@@ -46,10 +47,18 @@ cfg.mixup2_prob = 0.7
 cfg.mix_beta = 5
 cfg.mix_beta2 = 2
 cfg.in_chans = 1
+# cfg.epochs = {
+#     "pretrain_ce": 80,
+#     "pretrain_bce": 40,
+#     "train_ce": 60,
+#     #"train_bce": 30,
+#     #"finetune": 10,
+# }
+# Make smaller epochs
 cfg.epochs = {
-    "pretrain_ce": 80,
-    "pretrain_bce": 40,
-    "train_ce": 60,
+    "pretrain_ce": 20,
+    "pretrain_bce": 10,
+    "train_ce": 15,
     #"train_bce": 30,
     #"finetune": 10,
 }

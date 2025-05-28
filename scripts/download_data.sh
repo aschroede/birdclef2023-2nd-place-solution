@@ -12,12 +12,33 @@ source ../.env 2> /dev/null || source .env
 DIR="$SCRIPT_DIR"/../data/cifar10
 mkdir -p "$DIR"
 
-# download tar file
-curl -C - https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz --output "$DIR"/cifar-10-python.tar.gz
 
-# extract tar file
-tar xfv "$DIR"/cifar-10-python.tar.gz -C "$DIR"
 
-# move data out of "ugly" `cifar-10-batches-py` folder
-mv "$DIR"/cifar-10-batches-py/* "$DIR"
-rmdir "$DIR"/cifar-10-batches-py
+PROJECT_ROOT="$( dirname "$SCRIPT_DIR" )"
+INPUT_DIR="$PROJECT_ROOT/inputs"
+AUDIO_DIR="$INPUT_DIR/train_audios"
+NOISE_DIR="$INPUT_DIR/background_noise"
+
+
+# # --- Download train.csv metadata ---
+# echo "📥 Downloading metadata: train.csv"
+# cd "$INPUT_DIR"
+# kaggle datasets download honglihang/birdclef2023-extended-train
+# unzip -o birdclef2023-extended-train.zip
+# rm birdclef2023-extended-train.zip
+
+# # --- Download BirdCLEF2023 audio files ---
+# echo "🎧 Downloading BirdCLEF2023 train audios"
+# cd "$AUDIO_DIR"
+# kaggle competitions download -c birdclef-2023
+# unzip -o birdclef-2023.zip
+# rm birdclef-2023.zip
+
+# --- Download background noise ---
+echo "🔊 Downloading background noise files"
+cd "$NOISE_DIR"
+kaggle datasets download honglihang/background-noise
+unzip -o background-noise.zip
+rm background-noise.zip
+
+echo "✅ All data downloaded and extracted successfully!"

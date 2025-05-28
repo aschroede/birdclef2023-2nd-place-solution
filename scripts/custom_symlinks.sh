@@ -32,6 +32,12 @@ CLUSTER_BASE="$NFS_USER_DIR"/"$PROJECT_NAME"
 PROJECT_ROOT="$( dirname "$SCRIPT_DIR" )"
 LINK_FILE="$SCRIPT_DIR/.clusterlink"
 
+
+#!/bin/bash
+
+# Get script and project root locations
+LINK_FILE="$SCRIPT_DIR/.clusterlink"
+
 echo "Preparing cluster links using $LINK_FILE"
 
 if [ ! -f "$LINK_FILE" ]; then
@@ -50,15 +56,17 @@ while IFS=: read -r link_name target_rel; do
   TARGET="$CLUSTER_BASE/$target_rel"
   echo "→ Processing: $link_name → $TARGET"
 
-  # Special handling for 'inputs': preserve directory structure
-  if [ "$link_name" == "inputs" ] && [ -d "$link_name" ] && [ ! -L "$link_name" ]; then
-    echo "   - Copying inputs/ structure into $TARGET"
+  if [ -d "$link_name" ] && [ ! -L "$link_name" ]; then
+    echo "   - Copying $link_name/ structure into $TARGET"
     mkdir -p "$TARGET"
     cd "$link_name"
     find . -type d -exec mkdir -p "$TARGET/{}" \;
     find . -name '.gitignore' -exec cp --parents {} "$TARGET/" \;
-    cd "$PROJECT_ROOT"
-    echo "   - Replacing inputs/ with symlink"
+    cd "$PROJECT_ROOT" || {
+      echo "   ❌ Failed to return to project root — aborting."
+      exit 1
+    }
+    echo "   - Removing $link_name/ and replacing with symlink"
     rm -rf "$link_name"
     ln -s "$TARGET" "$link_name"
 
@@ -69,7 +77,7 @@ while IFS=: read -r link_name target_rel; do
 
   elif [ -d "$link_name" ]; then
     echo "   - Removing existing $link_name/ directory and replacing with symlink"
-    rmdir "$link_name" 2>/dev/null
+    rm -rf "$link_name"
     ln -s "$TARGET" "$link_name"
 
   elif [ ! -e "$link_name" ]; then

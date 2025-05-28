@@ -13,3 +13,4 @@ torchvision==0.15.2
 torchmetrics==0.11.4
 openvino-dev[onnx]==2022.3.0
 wandb==0.15.3
+kaggle
