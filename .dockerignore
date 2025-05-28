@@ -1,0 +1,32 @@
+# Ignore Git-related files
+.git
+.gitignore
+
+# Ignore Python cache and virtual environment directories
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+.venv
+venv
+env
+
+# Ignore Docker-related files (they don't need to be in the image)
+Dockerfile
+.dockerignore
+
+# Ignore IDE specific files
+.vscode
+.idea
+*.sublime-project
+*.sublime-workspace
+
+# Ignore common data/log files that might be generated locally
+data/
+logs/
+results/
+tmp/
+*.log
+*.sqlite3
+
+# Any other files or directories you don't need in the image
