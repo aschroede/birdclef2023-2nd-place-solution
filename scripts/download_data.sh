@@ -20,19 +20,19 @@ AUDIO_DIR="$INPUT_DIR/train_audios"
 NOISE_DIR="$INPUT_DIR/background_noise"
 
 
-# # --- Download train.csv metadata ---
-# echo "📥 Downloading metadata: train.csv"
-# cd "$INPUT_DIR"
-# kaggle datasets download honglihang/birdclef2023-extended-train
-# unzip -o birdclef2023-extended-train.zip
-# rm birdclef2023-extended-train.zip
+# --- Download train.csv metadata ---
+echo "📥 Downloading metadata: train.csv"
+cd "$INPUT_DIR"
+kaggle datasets download honglihang/birdclef2023-extended-train
+unzip -o birdclef2023-extended-train.zip
+rm birdclef2023-extended-train.zip
 
-# # --- Download BirdCLEF2023 audio files ---
-# echo "🎧 Downloading BirdCLEF2023 train audios"
-# cd "$AUDIO_DIR"
-# kaggle competitions download -c birdclef-2023
-# unzip -o birdclef-2023.zip
-# rm birdclef-2023.zip
+# --- Download BirdCLEF2023 audio files ---
+echo "🎧 Downloading BirdCLEF2023 train audios"
+cd "$AUDIO_DIR"
+kaggle competitions download -c birdclef-2023
+unzip -o birdclef-2023.zip
+rm birdclef-2023.zip
 
 # --- Download background noise ---
 echo "🔊 Downloading background noise files"
