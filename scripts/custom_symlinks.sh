@@ -25,7 +25,7 @@ echo "using NFS_USER_DIR=$NFS_USER_DIR and PROJECT_NAME=$PROJECT_NAME"
 
 
 # CLUSTER_BASE should point towards: /vol/csedu-nobackup/course/IMC030_mlip/${USER}
-CLUSTER_BASE=$NFS_USER_DIR
+CLUSTER_BASE="$NFS_USER_DIR"/"$PROJECT_NAME"
 
 
 #!/bin/bash
