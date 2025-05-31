@@ -363,6 +363,9 @@ class BirdClefModelBase(pl.LightningModule):
         self.epochs = cfg.epochs[stage]
         self.in_chans = cfg.in_chans
 
+        self.validation_step_outputs = []
+        self.training_step_outputs = []
+
         if self.loss == "ce":
             self.loss_function = nn.CrossEntropyLoss(
                 label_smoothing=self.cfg.label_smoothing, reduction="none"
@@ -512,7 +515,7 @@ class BirdClefModelBase(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         self.freeze()
         y_pred, target, loss = self(batch)
-
+        self.training_step_outputs.append(loss)
         # self.log("train_loss", loss, on_step=False, on_epoch=True, prog_bar=True)
 
         return {"loss": loss}
@@ -522,6 +525,8 @@ class BirdClefModelBase(pl.LightningModule):
             y_pred, target, val_loss = self.ema.module(batch)
         else:
             y_pred, target, val_loss = self(batch)
+
+        self.validation_step_outputs.append(val_loss)
         # print(y_pred)
         # self.log("val_loss", val_loss, on_step=True, on_epoch=True, logger=True, prog_bar=True)
 
@@ -533,18 +538,18 @@ class BirdClefModelBase(pl.LightningModule):
     def validation_dataloader(self):
         return self._validation_dataloader
 
-    def validation_epoch_end(self, outputs):
-        if len(outputs):
-            avg_loss = torch.stack([x["val_loss"] for x in outputs]).mean()
+    def on_validation_epoch_end(self):
+        if len(self.validation_step_outputs):
+            avg_loss = torch.stack([x["val_loss"] for x in self.validation_step_outputs]).mean()
             output_val = (
-                torch.cat([x["logits"] for x in outputs], dim=0)
+                torch.cat([x["logits"] for x in self.validation_step_outputs], dim=0)
                 .sigmoid()
                 .cpu()
                 .detach()
                 .numpy()
             )
             target_val = (
-                torch.cat([x["targets"] for x in outputs], dim=0).cpu().detach().numpy()
+                torch.cat([x["targets"] for x in self.validation_step_outputs], dim=0).cpu().detach().numpy()
             )
 
             # print(output_val.shape)
@@ -615,8 +620,8 @@ class BirdClefModelBase(pl.LightningModule):
             avg_score = 0
         return {"val_loss": avg_loss, "val_cmap": avg_score}
 
-    def train_epoch_end(self, outputs):
-        avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
+    def train_epoch_end(self):
+        avg_loss = torch.stack([x["loss"] for x in self.training_step_outputs]).mean()
         self.log("train_loss", avg_loss, on_step=False, on_epoch=True, prog_bar=True)
         if (self.ema is not None) & ((self.current_epoch > self.epochs - 3 - 1)):
             if not os.path.exists(self.cfg.output_path[stage]):
