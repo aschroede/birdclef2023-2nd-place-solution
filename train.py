@@ -87,6 +87,7 @@ def main():
         logger=logger,
         callbacks=callbacks_to_use,
         precision=cfg.PRECISION, accelerator="auto",
+        fast_dev_run = True,    
     )
 
     print("Running trainer.fit")

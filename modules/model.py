@@ -533,7 +533,7 @@ class BirdClefModelBase(pl.LightningModule):
     def validation_dataloader(self):
         return self._validation_dataloader
 
-    def on_validation_epoch_end(self, outputs):
+    def validation_epoch_end(self, outputs):
         if len(outputs):
             avg_loss = torch.stack([x["val_loss"] for x in outputs]).mean()
             output_val = (
@@ -615,7 +615,7 @@ class BirdClefModelBase(pl.LightningModule):
             avg_score = 0
         return {"val_loss": avg_loss, "val_cmap": avg_score}
 
-    def on_train_epoch_end(self, outputs):
+    def train_epoch_end(self, outputs):
         avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
         self.log("train_loss", avg_loss, on_step=False, on_epoch=True, prog_bar=True)
         if (self.ema is not None) & ((self.current_epoch > self.epochs - 3 - 1)):
