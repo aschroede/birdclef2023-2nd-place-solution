@@ -64,6 +64,14 @@ def preprocess(cfg):
         print('===========================================================')
     df = df[df['path'].apply(lambda x:os.path.exists(x))].reset_index(drop=True)
 
+    print(f"Number of files after filtering: {len(df)}")
+    print(f"df columns: {df.columns}")
+    print(df.head())
+
+    if df.empty:
+        raise ValueError("No audio files found in training directory. Check your paths and data setup.")
+
+
     labels = np.zeros(shape=(len(df),len(cfg.bird_cols)))
     df_labels = pd.DataFrame(labels,columns=cfg.bird_cols)
     class_sample_count = {col:0 for col in cfg.bird_cols}
