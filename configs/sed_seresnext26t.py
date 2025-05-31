@@ -26,7 +26,7 @@ cfg.secondary_label = 0.9
 cfg.secondary_label_weight = 0.5
 
 # Make batch size smaller as it probably won't fit in the 11 GB memory of the 2080 TI
-cfg.batch_size = 32
+cfg.batch_size = 128
 # Make precision smaller as well
 cfg.PRECISION = 16
 cfg.seed = {
