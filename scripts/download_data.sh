@@ -34,6 +34,14 @@ kaggle competitions download -c birdclef-2023
 unzip -o birdclef-2023.zip
 rm birdclef-2023.zip
 
+# Flatten the directory
+cd "$PROJECT_ROOT"
+!find ./inputs/train_audios -type f -name '*.ogg' -exec mv {} ./inputs/train_audios_flat/ \;
+
+!rm -rf ./inputs/train_audios/
+!mv ./inputs/train_audios_flat ./inputs/train_audios/
+
+
 # # --- Download background noise ---
 # echo "🔊 Downloading background noise files"
 # cd "$NOISE_DIR"
