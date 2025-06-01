@@ -16,7 +16,7 @@ cfg.background_duration_thre = 60
 cfg.pseudo_label_path = 'inputs/pseudo_label'
 cfg.hand_label_path = 'inputs/hand_label'
 
-cfg.train_data = 'inputs/train.csv'
+cfg.train_data = 'inputs/birdclef_comp_training_data.csv'
 cfg.train_dir = 'inputs/train_audios'
 cfg.test_dir = 'inputs/test_audios'
 
