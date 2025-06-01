@@ -27,12 +27,20 @@ kaggle datasets download honglihang/birdclef2023-extended-train
 unzip -o birdclef2023-extended-train.zip
 rm birdclef2023-extended-train.zip
 
-# --- Download BirdCLEF2023 audio files ---
+# # --- Download BirdCLEF2023 audio files ---
+# echo "🎧 Downloading BirdCLEF2023 train audios"
+# cd "$AUDIO_DIR"
+# kaggle competitions download -c birdclef-2023
+# unzip -o birdclef-2023.zip
+# rm birdclef-2023.zip
+
+# --- Download BirdCLEF2025 audio files ---
 echo "🎧 Downloading BirdCLEF2023 train audios"
 cd "$AUDIO_DIR"
-kaggle competitions download -c birdclef-2023
-unzip -o birdclef-2023.zip
-rm birdclef-2023.zip
+kaggle competitions download -c birdclef-2025
+unzip -o birdclef-2025.zip
+rm birdclef-2025.zip
+
 
 # Flatten the directory
 cd "$PROJECT_ROOT"
