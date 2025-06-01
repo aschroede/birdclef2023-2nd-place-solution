@@ -6,3 +6,5 @@ birdclef-image.tar
 venv
 data
 logs
+inputs
+outputs
